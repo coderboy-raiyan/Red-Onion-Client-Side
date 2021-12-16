@@ -12,9 +12,11 @@ const Header = () => {
             <img src="https://i.postimg.cc/TY7rMwP3/logo2.png" alt="" />
           </div>
         </div>
+        {/* Middle Navbar */}
+        <div></div>
         {/* right side navbar */}
         <div>
-          <ul className="flex space-x-6 items-center">
+          <ul className="space-x-6 items-center hidden lg:inline-flex">
             <li>
               <Link to="/">
                 <BsCart3 className="text-2xl hover:scale-110 transform transition-all hover:text-red-500" />

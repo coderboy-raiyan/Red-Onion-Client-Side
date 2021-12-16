@@ -10,7 +10,7 @@ const Hero = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="w-full h-[500px]"
+      className="w-full h-[550px]"
     >
       <div className="max-w-6xl xl:mx-auto mx-5">
         <div className="flex justify-center items-center flex-col h-80">
@@ -18,8 +18,11 @@ const Hero = () => {
 
           {/* input search */}
           <div className="relative w-full md:2/6 lg:w-2/6 ">
-            <input type="text" className="border-0 rounded-full w-full py-4" />
-            <button className="absolute rounded-full right-0 bg-red-500 py-4 px-5 text-white">
+            <input
+              type="text"
+              className="border-0 focus:ring-2 rounded-full w-full py-4"
+            />
+            <button className="absolute rounded-full  right-0 bg-red-500 py-4 px-5 text-white">
               Search
             </button>
           </div>
