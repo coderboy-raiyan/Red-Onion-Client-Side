@@ -31,4 +31,5 @@ export const foodSlice = createSlice({
 
 export const { setFoods, setFoodLoading } = foodSlice.actions;
 export const selectFoods = (state) => state.foods.foods;
+export const selectFoodLoading = (state) => state.foods.foodLoading;
 export default foodSlice.reducer;
