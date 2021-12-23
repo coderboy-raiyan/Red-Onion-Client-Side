@@ -1,4 +1,5 @@
 import React from "react";
+import Foods from "../Foods/Foods";
 import Hero from "../Hero/Hero";
 import Header from "./../Header/Header";
 
@@ -8,6 +9,7 @@ const Home = () => {
       <Header />
       <main>
         <Hero />
+        <Foods />
       </main>
     </>
   );

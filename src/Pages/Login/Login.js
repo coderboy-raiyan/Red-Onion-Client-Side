@@ -14,6 +14,7 @@ const Login = () => {
               placeholder="Enter your email"
               className="rounded"
             />
+
             <input
               type="password"
               placeholder="Enter your password"
