@@ -9,7 +9,9 @@ const Header = () => {
         {/* Left side navbar */}
         <div>
           <div className="w-40 flex-shrink-0">
-            <img src="https://i.postimg.cc/TY7rMwP3/logo2.png" alt="" />
+            <Link to="/">
+              <img src="https://i.postimg.cc/TY7rMwP3/logo2.png" alt="" />
+            </Link>
           </div>
         </div>
         {/* Middle Navbar */}

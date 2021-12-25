@@ -4,7 +4,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const FoodSkeliton = () => {
   return (
-    <div className="bg-white shadow-xl lg:w-80 md:w-80 w-full mx-auto rounded cursor-pointer">
+    <div className="bg-white shadow-xl border border-gray-200 lg:w-80 md:w-80 w-full mx-auto rounded cursor-pointer">
       <div className="">
         <div className="w-48 m-auto my-2">
           <Skeleton className="h-48 rounded-full" />

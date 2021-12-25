@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import FoodDetails from "./Pages/FoodDetails/FoodDetails";
 import Home from "./Pages/Home/Home/Home";
 import Login from "./Pages/Login/Login";
 import NotFound from "./Pages/NotFound/NotFound";
@@ -12,6 +13,12 @@ const App = () => {
       <Switch>
         <Route exact path="/">
           <Home />
+        </Route>
+        <Route path="/home">
+          <Home />
+        </Route>
+        <Route path="/foods/:foodId">
+          <FoodDetails />
         </Route>
         <Route path="/login">
           <Login />

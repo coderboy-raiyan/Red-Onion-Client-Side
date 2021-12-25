@@ -71,7 +71,7 @@ const Foods = () => {
       {/* foods side */}
 
       <div>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-y-6 ">
+        <div className="grid transition-all lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-y-6 ">
           {foods.map((food) =>
             foodLoading ? (
               <FoodSkeliton key={food._id} />
