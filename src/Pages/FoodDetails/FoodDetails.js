@@ -44,18 +44,21 @@ const FoodDetails = () => {
     }
   };
 
+  console.log(cartList);
+
   // Add to cart button
   const AddToCart = (foodId) => {
-    const isAlreadyInCart = cartList.find((food) => food._id === foodId);
-    singleFood.quantity = quantityValue;
+    const isAlreadyInCart = cartList.find((food) => food.id === foodId);
+    console.log(isAlreadyInCart);
 
+    singleFood.quantity = quantityValue;
     if (isAlreadyInCart) {
       const updatedFood = {
         id: foodId,
         quantity: quantityValue,
       };
       if (quantityValue >= 5) {
-        alert("You can't add more than 5");
+        return alert("You can't add more than 5");
       } else {
         setQuantityValue(quantityValue + 1);
       }
@@ -68,10 +71,16 @@ const FoodDetails = () => {
         .then((res) => res.json())
         .then((data) => console.log(data));
     } else {
+      const userFood = {
+        id: foodId,
+        name: singleFood.name,
+        price: singleFood.price,
+        quantity: quantityValue,
+      };
       fetch("http://localhost:5000/order", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(singleFood),
+        body: JSON.stringify(userFood),
       })
         .then((res) => res.json())
         .then((data) => {
@@ -83,6 +92,8 @@ const FoodDetails = () => {
         });
     }
   };
+
+  // Remove from cart
 
   return (
     <>
