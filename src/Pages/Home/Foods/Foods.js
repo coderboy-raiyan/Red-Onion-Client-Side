@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Food from "../../../Shared/Food/Food";
-import FoodSkeliton from "../../../Shared/FoodSkeliton/FoodSkeliton";
 import {
   fetchFoods,
   selectFoodLoading,
   selectFoods,
   setFoodLoading,
-} from "./../../../foodsSlice/foodsSlice";
+} from "../../../Reducers/foodsSlice/foodsSlice";
+import Food from "../../../Shared/Food/Food";
+import FoodSkeliton from "../../../Shared/FoodSkeliton/FoodSkeliton";
 
 const Foods = () => {
   const dispatch = useDispatch();
