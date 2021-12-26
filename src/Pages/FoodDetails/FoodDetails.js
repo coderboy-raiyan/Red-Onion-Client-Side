@@ -11,6 +11,17 @@ const FoodDetails = () => {
   const [cartList, setCartList] = useState([]);
   const [isAdded, setIsAdded] = useState(false);
 
+  // get the value of quantity for
+  useEffect(() => {
+    const isAlreadyInCart = cartList.find((food) => food.id === foodId);
+    console.log("inside", isAlreadyInCart);
+    if (isAlreadyInCart) {
+      setQuantityValue(isAlreadyInCart?.quantity);
+    } else {
+      setQuantityValue(1);
+    }
+  }, [singleFood]);
+
   // get the selected foods
   useEffect(() => {
     fetch(`http://localhost:5000/foods/${foodId}`)
@@ -39,17 +50,16 @@ const FoodDetails = () => {
   const minus = () => {
     if (quantityValue <= 1) {
       setQuantityValue(1);
+      removeFromCart(singleFood._id);
     } else {
       setQuantityValue(quantityValue - 1);
+      removeFromCart(singleFood._id);
     }
   };
-
-  console.log(cartList);
 
   // Add to cart button
   const AddToCart = (foodId) => {
     const isAlreadyInCart = cartList.find((food) => food.id === foodId);
-    console.log(isAlreadyInCart);
 
     singleFood.quantity = quantityValue;
     if (isAlreadyInCart) {
@@ -69,7 +79,13 @@ const FoodDetails = () => {
         body: JSON.stringify(updatedFood),
       })
         .then((res) => res.json())
-        .then((data) => console.log(data));
+        .then((data) => {
+          console.log(data);
+          setIsAdded(true);
+        })
+        .finally(() => {
+          setIsAdded(false);
+        });
     } else {
       const userFood = {
         id: foodId,
@@ -94,6 +110,32 @@ const FoodDetails = () => {
   };
 
   // Remove from cart
+
+  const removeFromCart = (foodId) => {
+    const isAlreadyInCart = cartList.find((food) => food.id === foodId);
+    console.log(isAlreadyInCart.quantity);
+    if (isAlreadyInCart.quantity === 1) {
+      console.log("art");
+    } else {
+      const updatedFood = {
+        id: foodId,
+        quantity: quantityValue,
+      };
+      fetch("http://localhost:5000/order/decrease", {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(updatedFood),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setIsAdded(true);
+        })
+        .finally(() => {
+          setIsAdded(false);
+        });
+    }
+  };
 
   return (
     <>
