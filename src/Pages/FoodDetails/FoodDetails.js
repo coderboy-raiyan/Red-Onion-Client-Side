@@ -8,6 +8,8 @@ const FoodDetails = () => {
   const { foodId } = useParams();
   const [singleFood, setSingleFood] = useState([]);
   const [quantityValue, setQuantityValue] = useState(1);
+  const [cartList, setCartList] = useState([]);
+  const [isAdded, setIsAdded] = useState(false);
 
   // get the selected foods
   useEffect(() => {
@@ -16,12 +18,20 @@ const FoodDetails = () => {
       .then((data) => setSingleFood(data));
   }, [foodId]);
 
+  // get the ordered food
+  useEffect(() => {
+    fetch("http://localhost:5000/food/ordered")
+      .then((res) => res.json())
+      .then((data) => setCartList(data));
+  }, [isAdded]);
+
   // plus quantity
   const plus = () => {
     if (quantityValue >= 5) {
       alert("You can't add more than 5");
     } else {
       setQuantityValue(quantityValue + 1);
+      AddToCart(singleFood._id);
     }
   };
 
@@ -35,7 +45,44 @@ const FoodDetails = () => {
   };
 
   // Add to cart button
-  const AddToCart = () => {};
+  const AddToCart = (foodId) => {
+    const isAlreadyInCart = cartList.find((food) => food._id === foodId);
+    singleFood.quantity = quantityValue;
+
+    if (isAlreadyInCart) {
+      const updatedFood = {
+        id: foodId,
+        quantity: quantityValue,
+      };
+      if (quantityValue >= 5) {
+        alert("You can't add more than 5");
+      } else {
+        setQuantityValue(quantityValue + 1);
+      }
+
+      fetch("http://localhost:5000/order/update", {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(updatedFood),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+    } else {
+      fetch("http://localhost:5000/order", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(singleFood),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setIsAdded(true);
+          console.log(data);
+        })
+        .finally(() => {
+          setIsAdded(false);
+        });
+    }
+  };
 
   return (
     <>
@@ -64,7 +111,10 @@ const FoodDetails = () => {
               </div>
             </div>
 
-            <button onClick={AddToCart} className="primary-btn w-2/6 py-3">
+            <button
+              onClick={() => AddToCart(singleFood._id)}
+              className="primary-btn w-2/6 py-3"
+            >
               <BsCart2 className="inline text-lg mb-1 mr-2" /> Add to cart
             </button>
           </div>
