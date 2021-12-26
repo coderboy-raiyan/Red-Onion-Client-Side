@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsCart2 } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { selectFood } from "../../Reducers/AddCartSlice/AddCartSlice";
 import Header from "../Home/Header/Header";
-import { fetchFood } from "./../../Reducers/AddCartSlice/AddCartSlice";
 
 const FoodDetails = () => {
   const { foodId } = useParams();
-  const dispatch = useDispatch();
-  const singleFood = useSelector(selectFood);
+  const [singleFood, setSingleFood] = useState({});
   const [quantityValue, setQuantityValue] = useState(1);
   const [cartList, setCartList] = useState([]);
   const [isAdded, setIsAdded] = useState(false);
@@ -28,7 +24,9 @@ const FoodDetails = () => {
 
   // get the selected foods
   useEffect(() => {
-    dispatch(fetchFood(foodId));
+    fetch(`http://localhost:5000/foods/${foodId}`)
+      .then((res) => res.json())
+      .then((data) => setSingleFood(data));
   }, [foodId]);
 
   // get the ordered food
