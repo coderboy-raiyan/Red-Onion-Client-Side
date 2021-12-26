@@ -60,8 +60,8 @@ const FoodDetails = () => {
   // Add to cart button
   const AddToCart = (foodId) => {
     const isAlreadyInCart = cartList.find((food) => food.id === foodId);
-
     singleFood.quantity = quantityValue;
+
     if (isAlreadyInCart) {
       const updatedFood = {
         id: foodId,
@@ -115,8 +115,15 @@ const FoodDetails = () => {
     const isAlreadyInCart = cartList.find((food) => food.id === foodId);
     console.log(isAlreadyInCart.quantity);
     if (isAlreadyInCart.quantity === 1) {
-      console.log("art");
+      // If quantity is equal to 1
+      fetch(`http://localhost:5000/order/${foodId}`, {
+        method: "DELETE",
+        headers: { "content-type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data));
     } else {
+      // If quantity is more than 1
       const updatedFood = {
         id: foodId,
         quantity: quantityValue,
@@ -151,7 +158,9 @@ const FoodDetails = () => {
 
             {/* pricing and quantity */}
             <div className="flex justify-between items-center space-x-3 flex-wrap w-2/4">
-              <h3 className="text-3xl">${singleFood?.price * quantityValue}</h3>
+              <h3 className="text-3xl">
+                ${(singleFood?.price * quantityValue).toFixed(2)}
+              </h3>
 
               <div className="flex items-center space-x-5 border border-gray-400 p-4 rounded-full flex-1 justify-center ">
                 <button className="text-2xl" onClick={minus}>
@@ -164,12 +173,14 @@ const FoodDetails = () => {
               </div>
             </div>
 
-            <button
-              onClick={() => AddToCart(singleFood._id)}
-              className="primary-btn w-2/6 py-3"
-            >
-              <BsCart2 className="inline text-lg mb-1 mr-2" /> Add to cart
-            </button>
+            <div className="flex justify-between flex-wrap w-2/4">
+              <button
+                onClick={() => AddToCart(singleFood._id)}
+                className="primary-btn py-3"
+              >
+                <BsCart2 className="inline text-lg mb-1 mr-2" /> Add to cart
+              </button>
+            </div>
           </div>
         </div>
 
