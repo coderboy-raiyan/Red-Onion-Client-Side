@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Cart from "./Pages/Cart/Cart";
 import FoodDetails from "./Pages/FoodDetails/FoodDetails";
 import Home from "./Pages/Home/Home/Home";
 import Login from "./Pages/Login/Login";
@@ -22,6 +23,9 @@ const App = () => {
         </Route>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/cart">
+          <Cart />
         </Route>
         <Route path="/register">
           <Register />

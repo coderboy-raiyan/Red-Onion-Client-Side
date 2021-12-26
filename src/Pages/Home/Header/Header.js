@@ -20,7 +20,7 @@ const Header = () => {
         <div>
           <ul className="space-x-6 items-center hidden lg:inline-flex">
             <li>
-              <Link to="/">
+              <Link to="/cart">
                 <BsCart3 className="text-2xl hover:scale-110 transform transition-all hover:text-red-500" />
               </Link>
             </li>
