@@ -20,7 +20,7 @@ const FoodDetails = () => {
     } else {
       setQuantityValue(1);
     }
-  }, [singleFood]);
+  }, [singleFood, foodId]);
 
   // get the selected foods
   useEffect(() => {
