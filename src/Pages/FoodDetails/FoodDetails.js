@@ -44,7 +44,7 @@ const FoodDetails = () => {
                 onClick={() => AddToCart(singleFood._id)}
                 className="primary-btn py-3"
               >
-                <BsCart2 className="inline text-lg mb-1 mr-2" /> Add to cart
+                <BsCart2 className="inline text-lg mb-1 mr-1" /> Add
               </button>
             </div>
           </div>

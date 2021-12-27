@@ -1,8 +1,10 @@
 import React from "react";
 import { BsCart3 } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import useFirebase from "../../../Hooks/useFirebase";
 
 const Header = () => {
+  const { signOut } = useFirebase();
   return (
     <header className="bg-white border border-gray-200">
       <nav className="flex justify-between items-center max-w-6xl xl:mx-auto mx-5 py-2">
@@ -35,6 +37,11 @@ const Header = () => {
               <Link to="/register">
                 <button className="primary-btn">Register</button>
               </Link>
+            </li>
+            <li>
+              <button onClick={signOut} className="primary-btn">
+                Logout
+              </button>
             </li>
           </ul>
         </div>
