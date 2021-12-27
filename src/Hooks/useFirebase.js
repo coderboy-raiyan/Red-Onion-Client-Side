@@ -4,8 +4,10 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setError, setLoading, setUser } from "../Reducers/userSlice/userSlice";
 import initializeAuth from "./../Pages/Firebase/Firebase.init";
 
 const googleProvider = new GoogleAuthProvider();
@@ -14,76 +16,74 @@ initializeAuth();
 
 const useFirebase = () => {
   const auth = getAuth();
-  const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const dispatch = useDispatch();
 
   //   signInWith google
   const googleSignIn = () => {
-    setLoading(true);
+    dispatch(setLoading(true));
     signInWithPopup(auth, googleProvider)
       .then((result) => {
-        setError("");
+        dispatch(setError(""));
       })
       .catch((error) => {
         const errorMessage = error.message;
-        setError(errorMessage);
+        dispatch(setError(errorMessage));
       })
       .finally(() => {
-        setLoading(false);
+        dispatch(setLoading(false));
       });
   };
 
   //   create user using email and password
   const signUpUser = (email, password) => {
-    setLoading(true);
+    dispatch(setLoading(true));
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
-        setError("");
+        dispatch(setError(""));
       })
       .catch((error) => {
         const errorMessage = error.message;
-        setError(errorMessage);
+        dispatch(setError(errorMessage));
       })
       .finally(() => {
-        setLoading(false);
+        dispatch(setLoading(false));
       });
   };
 
   //   Sign In with email, password
   const signInUser = (email, password) => {
-    setLoading(true);
+    dispatch(setLoading(true));
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        setError("");
+        dispatch(setError(""));
       })
       .catch((error) => {
         const errorMessage = error.message;
-        setError(errorMessage);
+        dispatch(setError(errorMessage));
       })
       .finally(() => {
-        setLoading(false);
+        dispatch(setLoading(false));
       });
   };
 
-  const signOut = () => {
-    setLoading(true);
+  const logout = () => {
+    dispatch(setLoading(true));
     signOut(auth)
       .then(() => {
-        setUser({});
+        dispatch(setUser({}));
       })
       .catch((error) => {
-        setError("");
+        dispatch(setError(error));
       })
       .finally(() => {
-        setLoading(false);
+        dispatch(setLoading(false));
       });
   };
 
   return {
     signInUser,
     signUpUser,
-    signOut,
+    logout,
     googleSignIn,
   };
 };
