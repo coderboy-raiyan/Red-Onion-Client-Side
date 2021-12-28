@@ -28,6 +28,7 @@ const useFirebase = () => {
         dispatch(setError(""));
         const redirect_uri = location?.state?.from || "/home";
         history.push(redirect_uri);
+        Swal.fire("Good job!", "Logged in successful", "success");
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -87,7 +88,7 @@ const useFirebase = () => {
         dispatch(setError(""));
         const redirect_uri = location?.state?.from || "/home";
         history.push(redirect_uri);
-        Swal.fire("Good job!", "Registered successful", "success");
+        Swal.fire("Good job!", "Logged in successful", "success");
       })
       .catch((error) => {
         const errorMessage = error.message;

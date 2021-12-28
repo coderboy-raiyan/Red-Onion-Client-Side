@@ -2,12 +2,31 @@ import React from "react";
 import { BsCart3 } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import useFirebase from "../../../Hooks/useFirebase";
 import { selectUser } from "./../../../Reducers/userSlice/userSlice";
 
 const Header = () => {
   const user = useSelector(selectUser);
   const { logout } = useFirebase();
+
+  const handelLogout = () => {
+    Swal.fire({
+      title: "Do you want to logout?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        logout();
+        Swal.fire("Successfully Logout", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("Ok", "", "info");
+      }
+    });
+  };
 
   return (
     <header className="bg-white border border-gray-200">
@@ -32,7 +51,7 @@ const Header = () => {
             </li>
             {user.email ? (
               <li>
-                <button onClick={logout} className="primary-btn">
+                <button onClick={handelLogout} className="primary-btn">
                   Logout
                 </button>
               </li>
