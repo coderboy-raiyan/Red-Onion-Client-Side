@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setError, setLoading, setUser } from "../Reducers/userSlice/userSlice";
@@ -35,11 +36,23 @@ const useFirebase = () => {
   };
 
   //   create user using email and password
-  const signUpUser = (email, password) => {
+  const signUpUser = (email, password, name, photoURL, location, history) => {
     dispatch(setLoading(true));
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
         dispatch(setError(""));
+
+        const temporaryUser = {
+          email: email,
+          displayName: name,
+          photoURL: photoURL,
+        };
+        dispatch(setUser(temporaryUser));
+
+        updateProfile(auth.currentUser, {
+          displayName: name,
+          photoURL: photoURL,
+        });
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -49,6 +62,8 @@ const useFirebase = () => {
         dispatch(setLoading(false));
       });
   };
+
+  // get
 
   //   Sign In with email, password
   const signInUser = (email, password) => {
