@@ -21,15 +21,22 @@ const useFirebase = () => {
   const dispatch = useDispatch();
 
   //   signInWith google
-  const googleSignIn = () => {
+  const googleSignIn = (location, history) => {
     dispatch(setLoading(true));
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         dispatch(setError(""));
+        const redirect_uri = location?.state?.from || "/home";
+        history.push(redirect_uri);
       })
       .catch((error) => {
         const errorMessage = error.message;
         dispatch(setError(errorMessage));
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${errorMessage}`,
+        });
       })
       .finally(() => {
         dispatch(setLoading(false));
@@ -73,15 +80,23 @@ const useFirebase = () => {
   // get
 
   //   Sign In with email, password
-  const signInUser = (email, password) => {
+  const signInUser = (email, password, location, history) => {
     dispatch(setLoading(true));
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         dispatch(setError(""));
+        const redirect_uri = location?.state?.from || "/home";
+        history.push(redirect_uri);
+        Swal.fire("Good job!", "Registered successful", "success");
       })
       .catch((error) => {
         const errorMessage = error.message;
         dispatch(setError(errorMessage));
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${errorMessage}`,
+        });
       })
       .finally(() => {
         dispatch(setLoading(false));

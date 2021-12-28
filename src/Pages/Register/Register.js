@@ -4,16 +4,16 @@ import { useForm } from "react-hook-form";
 import { BsCamera } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { RiCloseCircleFill } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import useFirebase from "../../Hooks/useFirebase";
-import { selectError, setError } from "../../Reducers/userSlice/userSlice";
+import { setError } from "../../Reducers/userSlice/userSlice";
 import Header from "../Home/Header/Header";
 
 const Register = () => {
   const { register, handleSubmit, reset } = useForm();
-  const { signUpUser } = useFirebase();
+  const { signUpUser, googleSignIn } = useFirebase();
   const fileRef = useRef(null);
   const history = useHistory();
   const location = useLocation();
@@ -21,7 +21,6 @@ const Register = () => {
   const [finalImg, setFinalImg] = useState("");
   const [readImg, setReadImg] = useState(null);
   const dispatch = useDispatch();
-  const error = useSelector(selectError);
 
   // empty the error message
   useEffect(() => {
@@ -52,6 +51,11 @@ const Register = () => {
       }).then((data) => setFinalImg(data.data.data.url));
     }
   }, [img]);
+
+  // Google Sign in
+  const handelGoogle = () => {
+    googleSignIn(location, history);
+  };
 
   // At last Submit the form
   const onSubmit = async (data) => {
@@ -163,8 +167,13 @@ const Register = () => {
                 </button>
               </div>
 
-              <p className="text-center">Or Login with...</p>
-              <div className="flex border p-4 rounded-full justify-center space-x-4 items-center my-4 cursor-pointer hover:scale-105 transform transition-all">
+              <p className="text-center">Or Register with...</p>
+              {/* Google button */}
+
+              <div
+                onClick={handelGoogle}
+                className="flex border p-4 rounded-full justify-center space-x-4 items-center my-4 cursor-pointer hover:scale-105 transform transition-all"
+              >
                 <FcGoogle className="text-3xl" />
                 <p className="text-lg">Connect with Google</p>
               </div>
