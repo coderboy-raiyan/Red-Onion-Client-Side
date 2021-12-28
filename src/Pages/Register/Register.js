@@ -4,9 +4,11 @@ import { useForm } from "react-hook-form";
 import { BsCamera } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { RiCloseCircleFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import useFirebase from "../../Hooks/useFirebase";
+import { selectError, setError } from "../../Reducers/userSlice/userSlice";
 import Header from "../Home/Header/Header";
 
 const Register = () => {
@@ -18,7 +20,15 @@ const Register = () => {
   const [img, setImg] = useState(null);
   const [finalImg, setFinalImg] = useState("");
   const [readImg, setReadImg] = useState(null);
+  const dispatch = useDispatch();
+  const error = useSelector(selectError);
 
+  // empty the error message
+  useEffect(() => {
+    dispatch(setError(""));
+  }, []);
+
+  // get the image from the input field
   const handelFile = (e) => {
     setImg(e.target.files[0]);
     const reader = new FileReader();
@@ -30,6 +40,7 @@ const Register = () => {
     };
   };
 
+  // send the image to imageBb and get the url
   useEffect(() => {
     if (img) {
       const formData = new FormData();
@@ -42,9 +53,9 @@ const Register = () => {
     }
   }, [img]);
 
+  // At last Submit the form
   const onSubmit = async (data) => {
-    console.log(data);
-
+    // check the password
     if (data.password.length < 6) {
       return Swal.fire({
         icon: "error",
@@ -144,7 +155,10 @@ const Register = () => {
                   {...register("password")}
                   required
                 />
-                <button className="primary-btn rounded py-3 block text-lg hover:border-2 border-2">
+                <button
+                  disabled={!img}
+                  className="disabled:opacity-75 disabled:bg-red-500 disabled:text-white disabled:cursor-not-allowed primary-btn rounded py-3 block text-lg hover:border-2 border-2"
+                >
                   Register
                 </button>
               </div>

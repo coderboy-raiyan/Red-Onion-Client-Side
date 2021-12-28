@@ -8,6 +8,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 import { setError, setLoading, setUser } from "../Reducers/userSlice/userSlice";
 import initializeAuth from "./../Pages/Firebase/Firebase.init";
 
@@ -41,22 +42,28 @@ const useFirebase = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
         dispatch(setError(""));
-
         const temporaryUser = {
           email: email,
           displayName: name,
           photoURL: photoURL,
         };
         dispatch(setUser(temporaryUser));
-
         updateProfile(auth.currentUser, {
           displayName: name,
           photoURL: photoURL,
         });
+        const redirect_uri = location?.state?.from || "/home";
+        history.push(redirect_uri);
+        Swal.fire("Good job!", "Registered successful", "success");
       })
       .catch((error) => {
         const errorMessage = error.message;
         dispatch(setError(errorMessage));
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${errorMessage}`,
+        });
       })
       .finally(() => {
         dispatch(setLoading(false));
