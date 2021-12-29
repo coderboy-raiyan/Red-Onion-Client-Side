@@ -18,7 +18,7 @@ const useAddToCart = (foodId) => {
     } else {
       setQuantityValue(1);
     }
-  }, [singleFood, foodId, cartList]);
+  }, [singleFood, foodId, cartList, user]);
 
   // get the selected foods
   useEffect(() => {
@@ -29,10 +29,10 @@ const useAddToCart = (foodId) => {
 
   // get the ordered food
   useEffect(() => {
-    fetch("http://localhost:5000/food/ordered")
+    fetch(`http://localhost:5000/food/ordered/${user.email}`)
       .then((res) => res.json())
       .then((data) => setCartList(data));
-  }, [isAdded]);
+  }, [isAdded, user]);
 
   // plus quantity
   const plus = () => {
@@ -87,6 +87,7 @@ const useAddToCart = (foodId) => {
     } else {
       const userFood = {
         id: foodId,
+        email: user?.email,
         name: singleFood.name,
         price: singleFood.price,
         quantity: quantityValue,
