@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "./../Reducers/userSlice/userSlice";
 
 const useAddToCart = (foodId) => {
   const [quantityValue, setQuantityValue] = useState(1);
   const [cartList, setCartList] = useState([]);
   const [isAdded, setIsAdded] = useState(false);
   const [singleFood, setSingleFood] = useState({});
+  const user = useSelector(selectUser);
 
   // get the value of quantity for
   useEffect(() => {

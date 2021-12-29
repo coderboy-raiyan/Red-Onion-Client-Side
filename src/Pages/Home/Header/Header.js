@@ -1,5 +1,6 @@
 import React from "react";
 import { BsCart3 } from "react-icons/bs";
+import { FiLogOut } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -50,9 +51,20 @@ const Header = () => {
               </Link>
             </li>
             {user.email ? (
-              <li>
-                <button onClick={handelLogout} className="primary-btn">
-                  Logout
+              <li className="flex items-center space-x-2 cursor-pointer">
+                <div>
+                  <img
+                    className="w-10 h-10 rounded-full"
+                    src={user?.photoURL}
+                    alt=""
+                  />
+                </div>
+                <p>{user.displayName}</p>
+                <button
+                  onClick={handelLogout}
+                  className="text-2xl hover:scale-110 transition-all"
+                >
+                  <FiLogOut />
                 </button>
               </li>
             ) : (
