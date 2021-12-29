@@ -30,11 +30,7 @@ const FoodDetails = () => {
                 </h3>
 
                 <div className="flex items-center space-x-5 border border-gray-400 p-4 rounded-full flex-1 justify-center ">
-                  <button
-                    disabled={quantityValue === 1}
-                    className="disabled:opacity-80 after:text-2xl"
-                    onClick={minus}
-                  >
+                  <button className=" after:text-2xl" onClick={minus}>
                     <AiOutlineMinus />
                   </button>
                   <p className="text-xl">{quantityValue}</p>

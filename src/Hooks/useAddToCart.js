@@ -12,8 +12,11 @@ const useAddToCart = (foodId) => {
   // get the value of quantity for
   useEffect(() => {
     const isAlreadyInCart = cartList.find((food) => food.id === foodId);
+    const isEmailAlreadyInCart = cartList.find(
+      (food) => food.email === user.email
+    );
     console.log("inside", isAlreadyInCart);
-    if (isAlreadyInCart) {
+    if (isAlreadyInCart && isEmailAlreadyInCart) {
       setQuantityValue(isAlreadyInCart?.quantity);
     } else {
       setQuantityValue(1);
@@ -29,7 +32,7 @@ const useAddToCart = (foodId) => {
 
   // get the ordered food
   useEffect(() => {
-    fetch(`http://localhost:5000/food/ordered`)
+    fetch(`http://localhost:5000/food/ordered/${user.email}`)
       .then((res) => res.json())
       .then((data) => setCartList(data));
   }, [isAdded, user]);
@@ -58,12 +61,16 @@ const useAddToCart = (foodId) => {
   // Add to cart button
   const AddToCart = (foodId) => {
     const isAlreadyInCart = cartList.find((food) => food.id === foodId);
+    const isEmailAlreadyInCart = cartList.find(
+      (food) => food.email === user.email
+    );
     singleFood.quantity = quantityValue;
 
-    if (isAlreadyInCart) {
+    if (isAlreadyInCart && isEmailAlreadyInCart) {
       const updatedFood = {
         id: foodId,
         quantity: quantityValue,
+        email: user.email,
       };
       if (quantityValue >= 5) {
         return alert("You can't add more than 5");
@@ -87,6 +94,7 @@ const useAddToCart = (foodId) => {
     } else {
       const userFood = {
         id: foodId,
+        email: user?.email,
         name: singleFood.name,
         price: singleFood.price,
         quantity: quantityValue,
@@ -111,12 +119,20 @@ const useAddToCart = (foodId) => {
 
   const removeFromCart = (foodId) => {
     const isAlreadyInCart = cartList.find((food) => food.id === foodId);
+    const isEmailAlreadyInCart = cartList.find(
+      (food) => food.email === user.email
+    );
 
-    if (isAlreadyInCart.quantity === 1) {
+    if (isAlreadyInCart.quantity === 1 && isEmailAlreadyInCart) {
       // If quantity is equal to 1
-      fetch(`http://localhost:5000/order/${foodId}`, {
+      const idAndEmail = {
+        id: foodId,
+        email: user.email,
+      };
+      fetch(`http://localhost:5000/order`, {
         method: "DELETE",
         headers: { "content-type": "application/json" },
+        body: JSON.stringify(idAndEmail),
       })
         .then((res) => res.json())
         .then((data) => console.log(data));
@@ -125,6 +141,7 @@ const useAddToCart = (foodId) => {
       const updatedFood = {
         id: foodId,
         quantity: quantityValue,
+        email: user.email,
       };
       fetch("http://localhost:5000/order/decrease", {
         method: "PUT",

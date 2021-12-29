@@ -1,10 +1,12 @@
 import React from "react";
+import Header from "./../Home/Header/Header";
 
 const Cart = () => {
   return (
-    <div>
+    <>
+      <Header />
       <h1>This is cart</h1>
-    </div>
+    </>
   );
 };
 
