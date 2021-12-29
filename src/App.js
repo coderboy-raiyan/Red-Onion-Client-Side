@@ -8,8 +8,9 @@ import FoodDetails from "./Pages/FoodDetails/FoodDetails";
 import Home from "./Pages/Home/Home/Home";
 import Login from "./Pages/Login/Login";
 import NotFound from "./Pages/NotFound/NotFound";
+import FoodPrivate from "./Pages/PrivateRoute/FoodPrivate";
 import Register from "./Pages/Register/Register";
-import { setUser } from "./Reducers/userSlice/userSlice";
+import { setLoading, setUser } from "./Reducers/userSlice/userSlice";
 import "./tailwind.css";
 initializeAuth();
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
         } else {
           dispatch(setUser({}));
         }
+        dispatch(setLoading(false));
       }),
     []
   );
@@ -36,9 +38,9 @@ const App = () => {
         <Route path="/home">
           <Home />
         </Route>
-        <Route path="/foods/:foodId">
+        <FoodPrivate path="/foods/:foodId">
           <FoodDetails />
-        </Route>
+        </FoodPrivate>
         <Route path="/login">
           <Login />
         </Route>

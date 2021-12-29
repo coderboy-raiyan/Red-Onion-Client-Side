@@ -5,10 +5,14 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useFirebase from "../../../Hooks/useFirebase";
-import { selectUser } from "./../../../Reducers/userSlice/userSlice";
+import {
+  selectLoading,
+  selectUser,
+} from "./../../../Reducers/userSlice/userSlice";
 
 const Header = () => {
   const user = useSelector(selectUser);
+  const loading = useSelector(selectLoading);
   const { logout } = useFirebase();
 
   const handelLogout = () => {
