@@ -29,7 +29,7 @@ const useAddToCart = (foodId) => {
 
   // get the ordered food
   useEffect(() => {
-    fetch(`http://localhost:5000/food/ordered/${user.email}`)
+    fetch(`http://localhost:5000/food/ordered`)
       .then((res) => res.json())
       .then((data) => setCartList(data));
   }, [isAdded, user]);
@@ -78,7 +78,7 @@ const useAddToCart = (foodId) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          console.log("inside from 0ne", data);
           setIsAdded(true);
         })
         .finally(() => {
@@ -87,7 +87,6 @@ const useAddToCart = (foodId) => {
     } else {
       const userFood = {
         id: foodId,
-        email: user?.email,
         name: singleFood.name,
         price: singleFood.price,
         quantity: quantityValue,
