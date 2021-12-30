@@ -96,6 +96,7 @@ const useAddToCart = (foodId) => {
         id: foodId,
         email: user?.email,
         name: singleFood.name,
+        img: singleFood.img,
         price: singleFood.price,
         quantity: quantityValue,
       };

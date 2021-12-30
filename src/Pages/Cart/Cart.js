@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../Reducers/userSlice/userSlice";
+import CartItem from "../../Shared/CartItem/CartItem";
 import Header from "./../Home/Header/Header";
 
 const Cart = () => {
@@ -10,6 +11,7 @@ const Cart = () => {
   const user = useSelector(selectUser);
   const [cart, setCart] = useState([]);
 
+  console.log(cart);
   // form data
   const onSubmit = (data) => {
     console.log(data);
@@ -39,41 +41,33 @@ const Cart = () => {
         <div className="lg:max-w-6xl lg:mx-auto max-w-3xl mx-4 grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 py-12">
           {/* Cart items section */}
           <div>
-            <h1>This is cart</h1>
+            <div>
+              {cart.map((items) => (
+                <CartItem key={items._id} items={items} />
+              ))}
+            </div>
           </div>
           {/* Information section */}
           <div className="col-span-2">
             <div>
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="w-2/3 backdrop-blur-xl bg-white/30 p-5 rounded shadow-xl ml-auto flex flex-col justify-center items-center space-y-6"
+                className="w-2/3 backdrop-blur-xl bg-white/30 p-5 rounded shadow-xl ml-auto flex flex-col justify-center items-start space-y-6"
               >
+                <div>
+                  <p className="text-sm">Subtotal ({cart?.length} items)</p>
+                </div>
                 <div className="flex flex-col space-y-8 w-full">
                   <input
-                    {...register("name")}
+                    {...register("voucher")}
                     required
                     className="form-input"
                     type="text"
-                    placeholder="Name"
-                    defaultValue={user?.displayName}
-                  />
-                  <input
-                    className="form-input"
-                    type="text"
-                    placeholder="Address"
-                    {...register("address")}
-                    required
-                  />
-                  <input
-                    className="form-input"
-                    type="text"
-                    placeholder="House no"
-                    {...register("house")}
-                    required
+                    placeholder="Enter your voucher"
                   />
                 </div>
-                <button className="primary-btn w-full rounded py-4 text-lg">
-                  Save
+                <button className="primary-btn w-full rounded py-4 text-lg uppercase ring-2 ring-red-500">
+                  Proceed to checkout
                 </button>
               </form>
             </div>
