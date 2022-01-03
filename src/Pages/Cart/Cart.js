@@ -38,9 +38,9 @@ const Cart = () => {
         }}
         className="w-full h-[600px] min-h-full"
       >
-        <div className="lg:max-w-6xl lg:mx-auto max-w-3xl mx-4 grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 py-12">
+        <div className="lg:max-w-6xl lg:mx-auto max-w-3xl mx-4 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 py-12">
           {/* Cart items section */}
-          <div>
+          <div className="col-span-2 bg-gray-100 p-3 rounded shadow-lg">
             <div>
               {cart.map((items) => (
                 <CartItem key={items._id} items={items} />
