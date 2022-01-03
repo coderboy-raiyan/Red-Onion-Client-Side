@@ -1,15 +1,24 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  cartItems,
+  selectCart,
+  setCartLoading,
+} from "../../Reducers/CartSlice/CartSlice";
 import { selectUser } from "../../Reducers/userSlice/userSlice";
 import CartItem from "../../Shared/CartItem/CartItem";
+import { selectCartLoading } from "./../../Reducers/CartSlice/CartSlice";
 import Header from "./../Home/Header/Header";
 
 const Cart = () => {
   const { register, handleSubmit, reset } = useForm();
   const user = useSelector(selectUser);
-  const [cart, setCart] = useState([]);
+  const cart = useSelector(selectCart);
+  const cartLoading = useSelector(selectCartLoading);
+  const dispatch = useDispatch();
+
+  console.log(cartLoading);
 
   console.log(cart);
   // form data
@@ -19,9 +28,8 @@ const Cart = () => {
 
   // load the cart value
   useEffect(() => {
-    axios(`http://localhost:5000/cart/${user.email}`).then((data) =>
-      setCart(data.data)
-    );
+    dispatch(cartItems(user.email));
+    dispatch(setCartLoading(false));
   }, [user]);
 
   return (
