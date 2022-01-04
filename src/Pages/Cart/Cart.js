@@ -44,11 +44,11 @@ const Cart = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-        className="w-full h-[600px] min-h-full"
+        className="w-full h-full min-h-[600px]"
       >
         <div className="lg:max-w-6xl lg:mx-auto max-w-3xl mx-4 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 py-12">
           {/* Cart items section */}
-          <div className="col-span-2 bg-gray-100 p-3 rounded shadow-lg">
+          <div className="lg:col-span-2 md:col-span-2 bg-gray-100 p-3 rounded shadow-lg">
             <div>
               {cart.map((items) => (
                 <CartItem key={items._id} items={items} />
@@ -56,11 +56,11 @@ const Cart = () => {
             </div>
           </div>
           {/* Information section */}
-          <div className="col-span-2">
+          <div className="lg:col-span-2 md:col-span-2">
             <div>
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="w-2/3 backdrop-blur-xl bg-white/30 p-5 rounded shadow-xl ml-auto flex flex-col justify-center items-start space-y-6"
+                className="lg:w-2/3 w-full lg:my-0 my-3 backdrop-blur-xl bg-white/30 p-5 rounded shadow-xl ml-auto flex flex-col justify-center items-start space-y-6"
               >
                 <div>
                   <p className="text-sm">Subtotal ({cart?.length} items)</p>

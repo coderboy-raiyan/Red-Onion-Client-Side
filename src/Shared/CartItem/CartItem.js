@@ -4,7 +4,7 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 const CartItem = ({ items }) => {
   console.log(items);
   return (
-    <div className="bg-zinc-50 rounded shadow">
+    <div className="bg-zinc-50 rounded shadow my-3">
       <div className="flex w-full space-x-8 items-center px-4 py-3">
         <ul>
           <li>

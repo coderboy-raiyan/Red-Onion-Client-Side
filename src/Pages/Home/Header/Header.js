@@ -5,10 +5,12 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useFirebase from "../../../Hooks/useFirebase";
+import { selectCart } from "./../../../Reducers/CartSlice/CartSlice";
 import { selectUser } from "./../../../Reducers/userSlice/userSlice";
 
 const Header = () => {
   const user = useSelector(selectUser);
+  const cart = useSelector(selectCart);
   const { logout } = useFirebase();
 
   const handelLogout = () => {
@@ -45,9 +47,13 @@ const Header = () => {
         {/* right side navbar */}
         <div>
           <ul className="space-x-6 items-center hidden lg:inline-flex">
-            <li>
+            <li className="relative">
               <Link to="/cart">
                 <BsCart3 className="text-2xl hover:scale-110 transform transition-all hover:text-red-500" />
+
+                <span className="absolute -inset-y-2 inset-x-4 text-xs w-5 h-5 flex justify-center items-center animate-pulse cursor-pointer text-white bg-red-500 rounded-full">
+                  {cart.length}
+                </span>
               </Link>
             </li>
             {user.email ? (
