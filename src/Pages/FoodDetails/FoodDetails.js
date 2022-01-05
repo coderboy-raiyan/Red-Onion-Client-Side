@@ -7,8 +7,7 @@ import useAddToCart from "./../../Hooks/useAddToCart";
 
 const FoodDetails = () => {
   const { foodId } = useParams();
-  const { plus, minus, AddToCart, quantityValue, singleFood } =
-    useAddToCart(foodId);
+  const { singleFood, plus, minus, quantity, AddToCart } = useAddToCart(foodId);
 
   return (
     <>
@@ -25,19 +24,16 @@ const FoodDetails = () => {
 
               {/* pricing and quantity */}
               <div className="flex justify-between items-center space-x-3 flex-wrap w-2/4">
-                <h3 className="text-3xl">
-                  ${(singleFood?.price * quantityValue).toFixed(2)}
-                </h3>
+                <h3 className="text-3xl">${singleFood?.price}</h3>
 
                 <div className="flex items-center space-x-5 border border-gray-400 p-4 rounded-full flex-1 justify-center ">
-                  <button className=" after:text-2xl" onClick={minus}>
+                  <button onClick={minus} className=" after:text-2xl">
                     <AiOutlineMinus />
                   </button>
-                  <p className="text-xl">{quantityValue}</p>
+                  <p className="text-xl">{quantity}</p>
                   <button
-                    disabled={quantityValue === 1}
-                    className="disabled:opacity-80 text-2xl text-red-500"
                     onClick={plus}
+                    className="disabled:opacity-80 text-2xl text-red-500"
                   >
                     <AiOutlinePlus />
                   </button>
@@ -45,12 +41,11 @@ const FoodDetails = () => {
               </div>
 
               <div className="flex justify-between flex-wrap w-2/4">
-                <button
-                  onClick={() => AddToCart(singleFood._id)}
-                  className="primary-btn py-3"
-                >
-                  <BsCart2 className="inline text-lg mb-1 mr-1" /> Add
+                {/* <Link to="/cart"> */}
+                <button onClick={AddToCart} className="primary-btn py-3">
+                  <BsCart2 className="inline text-lg mb-1 mr-1" /> Add to Cart
                 </button>
+                {/* </Link> */}
               </div>
             </div>
           </div>

@@ -1,172 +1,127 @@
+import axios from "axios";
+import cogoToast from "cogo-toast";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "./../Reducers/userSlice/userSlice";
 
 const useAddToCart = (foodId) => {
-  const [quantityValue, setQuantityValue] = useState(1);
-  const [cartList, setCartList] = useState([]);
-  const [isAdded, setIsAdded] = useState(false);
   const [singleFood, setSingleFood] = useState({});
+  const [quantity, setQuantity] = useState(1);
   const user = useSelector(selectUser);
+  const [isAlreadyCart, setIsAlreadyCart] = useState(false);
+  const [cart, setCart] = useState([]);
+  const [reloadCart, setReloadCart] = useState(false);
 
-  // get the value of quantity for
+  // load the all cartItems
   useEffect(() => {
-    const isAlreadyInCart = cartList.find((food) => food.id === foodId);
-    const isEmailAlreadyInCart = cartList.find(
-      (food) => food.email === user.email
+    axios(`http://localhost:5000/food/ordered/${user.email}`).then((data) =>
+      setCart(data.data)
     );
-    console.log("inside", isAlreadyInCart);
-    if (isAlreadyInCart && isEmailAlreadyInCart) {
-      setQuantityValue(isAlreadyInCart?.quantity);
-    } else {
-      setQuantityValue(1);
-    }
-  }, [singleFood, foodId, cartList, user]);
+  }, [quantity, user, singleFood, reloadCart]);
 
-  // get the selected foods
+  // check if it is already in the cart
   useEffect(() => {
-    fetch(`http://localhost:5000/foods/${foodId}`)
-      .then((res) => res.json())
-      .then((data) => setSingleFood(data));
+    const alreadyCart = cart.find((item) => item.orderId === foodId);
+    const emailInCart = cart.find((item) => item.email === user.email);
+
+    if (alreadyCart && emailInCart) {
+      setIsAlreadyCart(true);
+    } else {
+      setIsAlreadyCart(false);
+    }
+  }, [cart, user, singleFood]);
+
+  // load single food
+  useEffect(() => {
+    axios(`http://localhost:5000/foods/${foodId}`).then((data) =>
+      setSingleFood(data.data)
+    );
   }, [foodId]);
 
-  // get the ordered food
-  useEffect(() => {
-    fetch(`http://localhost:5000/food/ordered/${user.email}`)
-      .then((res) => res.json())
-      .then((data) => setCartList(data));
-  }, [isAdded, user]);
+  console.log(cart);
 
-  // plus quantity
+  // plus the quantity
   const plus = () => {
-    if (quantityValue >= 5) {
-      alert("You can't add more than 5");
+    if (quantity >= 5) {
+      alert("you can't add more than 5 items");
     } else {
-      setQuantityValue(quantityValue + 1);
-      AddToCart(singleFood._id);
+      setQuantity(quantity + 1);
     }
   };
 
-  // minus quantity
+  console.log(isAlreadyCart);
+
+  // minus the quantity
   const minus = () => {
-    if (quantityValue <= 1) {
-      setQuantityValue(1);
-      removeFromCart(singleFood._id);
+    if (quantity <= 1) {
+      setQuantity(1);
     } else {
-      setQuantityValue(quantityValue - 1);
-      removeFromCart(singleFood._id);
+      setQuantity(quantity - 1);
     }
   };
 
-  // Add to cart button
-  const AddToCart = (foodId) => {
-    const isAlreadyInCart = cartList.find((food) => food.id === foodId);
-    const isEmailAlreadyInCart = cartList.find(
-      (food) => food.email === user.email
-    );
-    singleFood.quantity = quantityValue;
+  // Add to cart
 
-    if (isAlreadyInCart && isEmailAlreadyInCart) {
-      const updatedFood = {
-        id: foodId,
-        quantity: quantityValue,
-        email: user.email,
-      };
-      if (quantityValue >= 5) {
-        return alert("You can't add more than 5");
+  const AddToCart = () => {
+    if (isAlreadyCart) {
+      // if it's into the cart
+      const foodQuantity = cart.find((item) => item.orderId === foodId);
+      // check if the quantity is bigger then 5
+      const checkQuantity = foodQuantity.quantity + quantity;
+      // check if the quantity is smaller or equal then 5
+      if (checkQuantity <= 5) {
+        const updatedItem = {
+          orderId: foodId,
+          email: user.email,
+          quantity: foodQuantity.quantity + quantity,
+        };
+
+        axios
+          .put("http://localhost:5000/order/update", updatedItem)
+          .then((res) => {
+            cogoToast.success(`${checkQuantity} added to cart.`);
+            setReloadCart(true);
+          })
+          .finally(() => {
+            setReloadCart(false);
+          });
       } else {
-        setQuantityValue(quantityValue + 1);
+        cogoToast.error(
+          `${checkQuantity} can not be added to cart. limited to 5.`
+        );
       }
 
-      fetch("http://localhost:5000/order/update", {
-        method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(updatedFood),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("inside from 0ne", data);
-          setIsAdded(true);
-        })
-        .finally(() => {
-          setIsAdded(false);
-        });
+      // console.log("already in cart");
     } else {
-      const userFood = {
-        id: foodId,
-        email: user?.email,
+      // if it's not in the cart
+      const foodData = {
+        orderId: foodId,
         name: singleFood.name,
-        img: singleFood.img,
         price: singleFood.price,
-        quantity: quantityValue,
+        img: singleFood.img,
+        email: user.email,
+        quantity: quantity,
       };
-      fetch("http://localhost:5000/order", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(userFood),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setIsAdded(true);
-          console.log(data);
+
+      axios
+        .post("http://localhost:5000/order", foodData)
+        .then((res) => {
+          console.log(res);
+          setReloadCart(true);
+          cogoToast.success(`Food item added to cart.`);
         })
         .finally(() => {
-          setIsAdded(false);
-        });
-    }
-  };
-
-  // Remove from cart
-
-  const removeFromCart = (foodId) => {
-    const isAlreadyInCart = cartList.find((food) => food.id === foodId);
-    const isEmailAlreadyInCart = cartList.find(
-      (food) => food.email === user.email
-    );
-
-    if (isAlreadyInCart.quantity === 1 && isEmailAlreadyInCart) {
-      // If quantity is equal to 1
-      const idAndEmail = {
-        id: foodId,
-        email: user.email,
-      };
-      fetch(`http://localhost:5000/order`, {
-        method: "DELETE",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(idAndEmail),
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data));
-    } else {
-      // If quantity is more than 1
-      const updatedFood = {
-        id: foodId,
-        quantity: quantityValue,
-        email: user.email,
-      };
-      fetch("http://localhost:5000/order/decrease", {
-        method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(updatedFood),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setIsAdded(true);
-        })
-        .finally(() => {
-          setIsAdded(false);
+          setReloadCart(false);
         });
     }
   };
 
   return {
+    singleFood,
+    quantity,
     plus,
     minus,
     AddToCart,
-    removeFromCart,
-    singleFood,
-    quantityValue,
   };
 };
 
