@@ -1,16 +1,25 @@
 import axios from "axios";
 import cogoToast from "cogo-toast";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { cartItems, setCartLoading } from "../Reducers/CartSlice/CartSlice";
 import { selectUser } from "./../Reducers/userSlice/userSlice";
 
 const useAddToCart = (foodId) => {
+  const dispatch = useDispatch();
   const [singleFood, setSingleFood] = useState({});
   const [quantity, setQuantity] = useState(1);
   const user = useSelector(selectUser);
   const [isAlreadyCart, setIsAlreadyCart] = useState(false);
   const [cart, setCart] = useState([]);
   const [reloadCart, setReloadCart] = useState(false);
+
+  // main cart update
+  // load the cart value
+  useEffect(() => {
+    dispatch(cartItems(user.email));
+    dispatch(setCartLoading(false));
+  }, [user, reloadCart]);
 
   // load the all cartItems
   useEffect(() => {
