@@ -2,6 +2,7 @@ import axios from "axios";
 import cogoToast from "cogo-toast";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 import { cartItems, setCartLoading } from "../Reducers/CartSlice/CartSlice";
 import { selectUser } from "../Reducers/userSlice/userSlice";
 
@@ -87,9 +88,40 @@ const useCart = () => {
     });
   };
 
+  // Delete one item directly from cart
+  const deleteItem = (foodId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete this item",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsLoading(true);
+        // if quantity equal to 1
+        axios
+          .delete(`http://localhost:5000/cart/delete/${foodId}`)
+          .then((res) => {
+            setReloadCart(true);
+            setIsLoading(false);
+            Swal.fire("Deleted!", "Your item has been deleted.", "success");
+          })
+          .finally(() => {
+            setReloadCart(false);
+          });
+      } else {
+        Swal.fire("Ok", "", "info");
+      }
+    });
+  };
+
   return {
     plusQuantity,
     minus,
+    deleteItem,
     reloadCart,
     isLoading,
   };

@@ -9,4 +9,8 @@ export const store = configureStore({
     foods: foodsReducer,
     cart: cartReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
