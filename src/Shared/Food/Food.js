@@ -2,8 +2,6 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 const Food = ({ food }) => {
-  console.log(food);
-
   const history = useHistory();
 
   const handelDetails = () => {

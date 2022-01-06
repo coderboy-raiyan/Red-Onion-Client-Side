@@ -18,9 +18,6 @@ const Cart = () => {
   const cartLoading = useSelector(selectCartLoading);
   const dispatch = useDispatch();
 
-  console.log(cartLoading);
-
-  console.log(cart);
   // form data
   const onSubmit = (data) => {
     console.log(data);

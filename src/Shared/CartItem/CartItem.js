@@ -1,8 +1,14 @@
 import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import useCart from "./../../Hooks/useCart";
 
 const CartItem = ({ items }) => {
-  console.log(items);
+  const { plusQuantity, isLoading } = useCart();
+
+  const handelPlus = (id) => {
+    plusQuantity(id);
+  };
+
   return (
     <div className="bg-zinc-50 rounded shadow my-3">
       <div className="flex w-full space-x-8 items-center px-4 py-3 flex-wrap">
@@ -23,7 +29,11 @@ const CartItem = ({ items }) => {
             <AiOutlineMinus />
           </button>
           <p className="text-lg">{items?.quantity}</p>
-          <button className="bg-gray-100 hover:bg-gray-200 p-2 rounded">
+          <button
+            onClick={() => handelPlus(items._id)}
+            disabled={isLoading === true}
+            className="disabled:cursor-not-allowed disabled:bg-gray-300 bg-gray-100 hover:bg-gray-200 p-2 rounded"
+          >
             <AiOutlinePlus />
           </button>
         </div>
