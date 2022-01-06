@@ -1,13 +1,30 @@
+import { css } from "@emotion/react";
 import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsCart2 } from "react-icons/bs";
 import { useParams } from "react-router-dom";
+import SyncLoader from "react-spinners/SyncLoader";
 import Header from "../Home/Header/Header";
 import useAddToCart from "./../../Hooks/useAddToCart";
 
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
 const FoodDetails = () => {
   const { foodId } = useParams();
-  const { singleFood, plus, minus, quantity, AddToCart } = useAddToCart(foodId);
+  const { singleFood, plus, minus, quantity, AddToCart, deatilsLoading } =
+    useAddToCart(foodId);
+
+  if (deatilsLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <SyncLoader color={"#F15858"} css={override} size={20} />;
+      </div>
+    );
+  }
 
   return (
     <>

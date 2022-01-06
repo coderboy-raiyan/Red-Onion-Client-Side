@@ -13,6 +13,7 @@ const useAddToCart = (foodId) => {
   const [isAlreadyCart, setIsAlreadyCart] = useState(false);
   const [cart, setCart] = useState([]);
   const [reloadCart, setReloadCart] = useState(false);
+  const [deatilsLoading, setDetailLoading] = useState(true);
 
   // main cart update
   // load the cart value
@@ -42,9 +43,12 @@ const useAddToCart = (foodId) => {
 
   // load single food
   useEffect(() => {
-    axios(`http://localhost:5000/foods/${foodId}`).then((data) =>
-      setSingleFood(data.data)
-    );
+    setDetailLoading(true);
+    axios(`http://localhost:5000/foods/${foodId}`)
+      .then((data) => setSingleFood(data.data))
+      .finally(() => {
+        setDetailLoading(false);
+      });
   }, [foodId]);
 
   console.log(cart);
@@ -131,6 +135,7 @@ const useAddToCart = (foodId) => {
     plus,
     minus,
     AddToCart,
+    deatilsLoading,
   };
 };
 
