@@ -17,6 +17,7 @@ const useCart = () => {
     dispatch(setCartLoading(false));
   }, [user, reloadCart]);
 
+  // plus a quantity
   const plusQuantity = (foodId) => {
     axios(`http://localhost:5000/cart/item/${foodId}`).then((data) => {
       if (data.data.quantity >= 5) {
@@ -32,7 +33,7 @@ const useCart = () => {
           .put(`http://localhost:5000/cart/quantity`, updatedItem)
           .then((res) => {
             if (res.data.modifiedCount) {
-              cogoToast.success("Successfully updated");
+              cogoToast.success("Successfully one more item added");
             } else {
               cogoToast.loading("Wait a few seconds");
             }
@@ -47,8 +48,48 @@ const useCart = () => {
     });
   };
 
+  // minus quantity
+  const minus = (foodId) => {
+    axios(`http://localhost:5000/cart/item/${foodId}`).then((data) => {
+      if (data.data.quantity <= 1) {
+        setIsLoading(true);
+        // if quantity equal to 1
+        axios
+          .delete(`http://localhost:5000/cart/delete/${foodId}`)
+          .then((res) => {
+            setReloadCart(true);
+            cogoToast.info("Successfully deleted");
+            setIsLoading(false);
+          })
+          .finally(() => {
+            setReloadCart(false);
+          });
+      } else {
+        // if quantity greater than 1
+        setIsLoading(true);
+        const updatedItem = {
+          id: foodId,
+          quantity: data.data.quantity - 1,
+        };
+
+        axios
+          .put("http://localhost:5000/cart/quantity/decrease", updatedItem)
+          .then((res) => {
+            setReloadCart(true);
+
+            cogoToast.success("One Item removed");
+            setIsLoading(false);
+          })
+          .finally(() => {
+            setReloadCart(false);
+          });
+      }
+    });
+  };
+
   return {
     plusQuantity,
+    minus,
     reloadCart,
     isLoading,
   };
