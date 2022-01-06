@@ -57,9 +57,9 @@ const App = () => {
         <Route path="/login">
           <Login />
         </Route>
-        <Route path="/cart">
+        <FoodPrivate path="/cart">
           <Cart />
-        </Route>
+        </FoodPrivate>
         <Route path="/register">
           <Register />
         </Route>
