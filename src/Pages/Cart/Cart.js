@@ -43,9 +43,9 @@ const Cart = () => {
         }}
         className="w-full h-full min-h-[600px]"
       >
-        <div className="lg:max-w-6xl lg:mx-auto max-w-3xl mx-4 grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 py-12">
+        <div className="lg:max-w-6xl lg:mx-auto max-w-3xl mx-4 grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 py-12 ">
           {/* Cart items section */}
-          <div className=" bg-gray-100 p-3 rounded shadow-lg">
+          <div className="scrollbar pr-5 scrollbar-thumb-gray-200 scrollbar-track-gray-100 bg-gray-100 p-3 rounded shadow-lg h-[500px] overflow-y-scroll">
             <div>
               {cart.map((items) => (
                 <CartItem key={items._id} items={items} />

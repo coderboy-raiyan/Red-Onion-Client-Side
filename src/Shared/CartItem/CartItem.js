@@ -24,11 +24,6 @@ const CartItem = ({ items }) => {
   return (
     <div className="bg-zinc-50 rounded shadow my-3">
       <div className="flex w-full space-x-5 items-center px-4 py-3 flex-wrap">
-        <ul>
-          <li>
-            <input type="checkbox" />
-          </li>
-        </ul>
         <div className="w-24 flex-shrink-0">
           <img src={items?.img} alt="" />
         </div>
