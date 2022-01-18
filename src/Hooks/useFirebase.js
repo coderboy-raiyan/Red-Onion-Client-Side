@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -25,6 +26,12 @@ const useFirebase = () => {
     dispatch(setLoading(true));
     signInWithPopup(auth, googleProvider)
       .then((result) => {
+        const temporaryUser = {
+          email: result.user.email,
+          displayName: result.user.displayName,
+          photoURL: result.user.photoURL,
+        };
+        saveDataToDataBase(temporaryUser, "put");
         dispatch(setError(""));
         const redirect_uri = location?.state?.from || "/home";
         history.push(redirect_uri);
@@ -60,6 +67,7 @@ const useFirebase = () => {
           displayName: name,
           photoURL: photoURL,
         });
+        saveDataToDataBase(temporaryUser, "post");
         const redirect_uri = location?.state?.from || "/home";
         history.push(redirect_uri);
         Swal.fire("Good job!", "Registered successful", "success");
@@ -84,7 +92,7 @@ const useFirebase = () => {
   const signInUser = (email, password, location, history) => {
     dispatch(setLoading(true));
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then((result) => {
         dispatch(setError(""));
         const redirect_uri = location?.state?.from || "/home";
         history.push(redirect_uri);
@@ -116,6 +124,19 @@ const useFirebase = () => {
       .finally(() => {
         dispatch(setLoading(false));
       });
+  };
+
+  // save user data to database
+  const saveDataToDataBase = (data, type) => {
+    if (type === "post") {
+      axios
+        .post("http://localhost:5000/users/register", data)
+        .then((data) => console.log(data.data));
+    } else {
+      axios
+        .put("http://localhost:5000/users/signIn", data)
+        .then((data) => console.log(data.data));
+    }
   };
 
   return {

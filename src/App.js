@@ -58,9 +58,9 @@ const App = () => {
         <Route path="/login">
           <Login />
         </Route>
-        <Route path="/profile">
+        <FoodPrivate path="/profile">
           <Profile />
-        </Route>
+        </FoodPrivate>
         <FoodPrivate path="/cart">
           <Cart />
         </FoodPrivate>
