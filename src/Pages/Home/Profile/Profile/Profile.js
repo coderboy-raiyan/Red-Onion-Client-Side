@@ -4,6 +4,7 @@ import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom";
 import { selectUser } from "../../../../Reducers/userSlice/userSlice";
 import Header from "../../Header/Header";
 import ManageProfile from "../ManageProfile/ManageProfile";
+import MyProfile from "../MyProfile/MyProfile";
 
 const Profile = () => {
   const user = useSelector(selectUser);
@@ -17,9 +18,9 @@ const Profile = () => {
         <div className="lg:max-w-6xl lg:mx-auto md:max-w-6xl md:mx-auto max-w-3xl mx-4 mb-6">
           <h1 className="text-xs">Hello, {user?.displayName}!</h1>
         </div>
-        <div className="lg:max-w-6xl lg:mx-auto md:max-w-6xl md:mx-auto max-w-3xl mx-4 grid lg:grid-cols-4 md:grid-cols-4 gap-x-2">
+        <div className="lg:max-w-6xl lg:mx-auto md:max-w-6xl md:mx-auto max-w-3xl mx-4 grid lg:grid-cols-4 md:grid-cols-4 gap-x-2 gap-y-5 grid-cols-1 transition-all">
           {/* left side menu bar */}
-          <div className="col-span-1">
+          <div className="lg:col-span-1 md:col-span-1 transition-all">
             <div className="bg-white w-full px-4 py-4 rounded">
               {/* user profile */}
               <ul className="flex flex-col space-y-2">
@@ -73,24 +74,26 @@ const Profile = () => {
             </div>
           </div>
           {/* right side sections */}
-          <div className="col-span-3">
-            <Switch>
-              <Route exact path={path}>
-                <ManageProfile />
-              </Route>
-              <Route path={`${path}/myprofile`}>
-                <h1>This is My Profile</h1>
-              </Route>
-              <Route path={`${path}/address`}>
-                <h1>This is Address</h1>
-              </Route>
-              <Route path={`${path}/paymentoptions`}>
-                <h1>This is payment options</h1>
-              </Route>
-              <Route path={`${path}/vouchers`}>
-                <h1>Vouchers</h1>
-              </Route>
-            </Switch>
+          <div className="lg:col-span-3 md:col-span-3 transition-all">
+            <div className="rounded lg:mx-5 md:mx-5 mx-0 bg-white p-3">
+              <Switch>
+                <Route exact path={path}>
+                  <ManageProfile />
+                </Route>
+                <Route path={`${path}/myprofile`}>
+                  <MyProfile />
+                </Route>
+                <Route path={`${path}/address`}>
+                  <h1>This is Address</h1>
+                </Route>
+                <Route path={`${path}/paymentoptions`}>
+                  <h1>This is payment options</h1>
+                </Route>
+                <Route path={`${path}/vouchers`}>
+                  <h1>Vouchers</h1>
+                </Route>
+              </Switch>
+            </div>
           </div>
         </div>
       </div>
