@@ -6,7 +6,7 @@ import Cart from "./Pages/Cart/Cart";
 import initializeAuth from "./Pages/Firebase/Firebase.init";
 import FoodDetails from "./Pages/FoodDetails/FoodDetails";
 import Home from "./Pages/Home/Home/Home";
-import Profile from "./Pages/Home/Profile/Profile";
+import Profile from "./Pages/Home/Profile/Profile/Profile";
 import Login from "./Pages/Login/Login";
 import NotFound from "./Pages/NotFound/NotFound";
 import FoodPrivate from "./Pages/PrivateRoute/FoodPrivate";

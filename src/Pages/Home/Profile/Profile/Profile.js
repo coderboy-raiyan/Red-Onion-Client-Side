@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
-import { selectUser } from "./../../../Reducers/userSlice/userSlice";
-import Header from "./../Header/Header";
+import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom";
+import { selectUser } from "../../../../Reducers/userSlice/userSlice";
+import Header from "../../Header/Header";
+import ManageProfile from "../ManageProfile/ManageProfile";
 
 const Profile = () => {
   const user = useSelector(selectUser);
@@ -23,35 +24,50 @@ const Profile = () => {
               {/* user profile */}
               <ul className="flex flex-col space-y-2">
                 <li>
-                  <Link
+                  <NavLink
+                    exact
                     to={`${path}`}
+                    activeClassName="text-blue-500"
                     className="text-md capitalize font-medium"
                   >
                     Manage my account
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to={`${path}/myprofile`} className="profile-options">
+                  <NavLink
+                    activeClassName="text-blue-500"
+                    to={`${path}/myprofile`}
+                    className="profile-options"
+                  >
                     My Profile
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to={`${path}/address`} className="profile-options">
+                  <NavLink
+                    activeClassName="text-blue-500"
+                    to={`${path}/address`}
+                    className="profile-options"
+                  >
                     Address book
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link
+                  <NavLink
+                    activeClassName="text-blue-500"
                     to={`${path}/paymentoptions`}
                     className="profile-options"
                   >
                     My payment options
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to={`${path}/vouchers`} className="profile-options">
+                  <NavLink
+                    activeClassName="text-blue-500"
+                    to={`${path}/vouchers`}
+                    className="profile-options"
+                  >
                     Vouchers
-                  </Link>
+                  </NavLink>
                 </li>
               </ul>
             </div>
@@ -60,7 +76,7 @@ const Profile = () => {
           <div className="col-span-3">
             <Switch>
               <Route exact path={path}>
-                <h3>Manage my accounth</h3>
+                <ManageProfile />
               </Route>
               <Route path={`${path}/myprofile`}>
                 <h1>This is My Profile</h1>
