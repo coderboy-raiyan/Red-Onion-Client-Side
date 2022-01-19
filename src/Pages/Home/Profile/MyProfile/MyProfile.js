@@ -8,11 +8,9 @@ const MyProfile = () => {
   return (
     <>
       {/* title */}
-      <div className="flex justify-between">
-        <h1 className="text-2xl text-gray-400 font-semibold mb-4">
-          My Profile
-        </h1>
-        <h4 className="text-sm text-green-500 border rounded-full bg-green-100 px-5 flex justify-center items-center border-green-500 ">
+      <div className="flex justify-between mb-4">
+        <h1 className="text-2xl text-gray-400 font-semibold">My Profile</h1>
+        <h4 className="text-sm text-green-500 border rounded-full bg-green-100 px-5 flex justify-center items-center border-green-500 flex-shrink-0">
           Verified
         </h4>
       </div>
@@ -33,12 +31,12 @@ const MyProfile = () => {
           </div>
           <div>
             <span className="text-sm text-gray-400 font-bold">Email</span>
-            <h2 className="mb-2">{user?.email}</h2>
+            <h2 className="mb-2 text-sm">{user?.email}</h2>
             <span className="text-sm text-gray-400 font-bold block mb-2">
               Your name
             </span>
             <input
-              className="rounded"
+              className="rounded text-sm ring-2 border-none ring-gray-400 focus:ring-green-500 focus:ring-2 "
               type="text"
               defaultValue={user?.displayName}
             />
