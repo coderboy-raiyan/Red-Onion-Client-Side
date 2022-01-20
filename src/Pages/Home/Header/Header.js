@@ -39,7 +39,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white border border-gray-200">
+    <header className="bg-white  border border-gray-200 shadow">
       <nav className="flex justify-between items-center max-w-6xl xl:mx-auto mx-5 py-2">
         {/* Left side navbar */}
         <div>

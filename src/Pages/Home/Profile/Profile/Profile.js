@@ -8,7 +8,7 @@ import MyProfile from "../MyProfile/MyProfile";
 
 const Profile = () => {
   const user = useSelector(selectUser);
-  const { path, url } = useRouteMatch();
+  const { path } = useRouteMatch();
   return (
     <>
       <Header />
@@ -21,7 +21,7 @@ const Profile = () => {
         <div className="lg:max-w-6xl lg:mx-auto md:max-w-6xl md:mx-auto max-w-3xl mx-4 grid lg:grid-cols-4 md:grid-cols-4 gap-x-2 gap-y-5 grid-cols-1 transition-all">
           {/* left side menu bar */}
           <div className="lg:col-span-1 md:col-span-1 transition-all">
-            <div className="bg-white w-full px-4 py-4 rounded">
+            <div className="bg-white w-full px-4 py-4 rounded border">
               {/* user profile */}
               <ul className="flex flex-col space-y-2">
                 <li>
@@ -75,7 +75,7 @@ const Profile = () => {
           </div>
           {/* right side sections */}
           <div className="lg:col-span-3 md:col-span-3 transition-all">
-            <div className="rounded lg:mx-5 md:mx-5 mx-0 bg-white p-3">
+            <div className="rounded lg:mx-5 md:mx-5 mx-0 bg-white p-5 h-full min-h-[300px] shadow">
               <Switch>
                 <Route exact path={path}>
                   <ManageProfile />
